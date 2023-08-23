@@ -38,12 +38,12 @@ fn main() {
     let sample_path = String::from("/home/sascha/Documents/AdventOfCode/2022/01/sample.txt");
 
 
-    let lines = stream_lines(sample_path);
+    let lines = stream_lines(&sample_path);
     match lines {
         Ok(lines) => {
             let max_sum = find_largest_group(lines);
             println!("{max_sum}");
         },
-        Err(_) => println!("File does not exist!")
+        Err(_) => println!("File '{sample_path}' does not exist!")
     }
 }
