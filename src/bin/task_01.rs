@@ -2,9 +2,7 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
 
-use top_n_counter::TopNGroupCounter;
-
-pub mod top_n_counter;
+use advent_of_code_2022_rust::top_n_counter::TopNGroupCounter;
 
 
 fn stream_lines<P> (filename: P) -> io::Result<io::Lines<io::BufReader<File>>> 
