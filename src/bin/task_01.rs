@@ -38,9 +38,12 @@ fn main() {
     match lines {
         Ok(lines) => {
             let max_sums = process_file(lines, 3);
+            let mut total_sum: usize = 0;
             for _sum in max_sums {
+                total_sum += _sum;
                 println!("{_sum}");
             }
+            println!("Total sum is: {total_sum}");
         },
         Err(_) => println!("File '{sample_path}' does not exist!")
     }
