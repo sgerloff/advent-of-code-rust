@@ -14,3 +14,4 @@ name = "task_01"
 path = "src/bin/task_01.rs"
 
 [dependencies]
+clap = { version = "4.4.0", features = ["derive"] }

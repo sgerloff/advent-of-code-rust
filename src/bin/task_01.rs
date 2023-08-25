@@ -2,6 +2,8 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
 
+use clap::Parser;
+
 use advent_of_code_2022_rust::top_n_counter::TopNGroupCounter;
 
 
@@ -31,13 +33,23 @@ fn process_file(lines: io::Lines<io::BufReader<File>>, top_n: usize) -> Vec<usiz
     return counter.top_sums;
 }
 
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Args {
+    #[arg(short, long)]
+    path: String,
+
+    #[arg(short, long, default_value_t = 1)]
+    top_n: usize,
+}
+
 fn main() {
-    println!("Read file...");
-    let sample_path = String::from("/home/sascha/Documents/AdventOfCode/2022/01/sample.txt");
-    let lines = stream_lines(&sample_path);
+    let args = Args::parse();
+
+    let lines = stream_lines(&args.path);
     match lines {
         Ok(lines) => {
-            let max_sums = process_file(lines, 3);
+            let max_sums = process_file(lines, args.top_n);
             let mut total_sum: usize = 0;
             for _sum in max_sums {
                 total_sum += _sum;
@@ -45,6 +57,6 @@ fn main() {
             }
             println!("Total sum is: {total_sum}");
         },
-        Err(_) => println!("File '{sample_path}' does not exist!")
+        Err(_) => println!("File '{}' does not exist!", args.path)
     }
 }
