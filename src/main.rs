@@ -7,6 +7,7 @@ mod task_01;
 
 fn main() {
     let matches = command!()
+    .subcommand_required(true)
     .subcommand(
         Command::new("task-01")
         .about("Advent of Code 2022 - Task 01")
@@ -16,7 +17,7 @@ fn main() {
             .value_parser(value_parser!(PathBuf))
         )
         .arg(
-            arg!(-n --topn "Number of largest groups to sum")
+            arg!(-n --topn <NUMBER> "Number of largest groups to sum")
             .required(false)
             .value_parser(value_parser!(usize))
             .default_value("1")
