@@ -10,8 +10,8 @@ name = "advent_of_code_2022_rust"
 path = "src/lib.rs"
 
 [[bin]]
-name = "task_01"
-path = "src/bin/task_01.rs"
+name = "aoc2022"
+path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.4.0", features = ["derive"] }
+clap = { version = "4.4.0", features = ["derive", "cargo"] }
