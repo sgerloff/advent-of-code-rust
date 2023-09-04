@@ -2,8 +2,8 @@ use std::path::PathBuf;
 
 use clap::{arg, command, value_parser, Command};
 
-mod task_01;
 
+mod task_01;
 
 fn main() {
     let matches = command!()
@@ -13,7 +13,7 @@ fn main() {
         .about("Advent of Code 2022 - Task 01")
         .arg(
             arg!(-f --file <FILE> "Path to input file")
-            .required(true)
+            .required(false)
             .value_parser(value_parser!(PathBuf))
         )
         .arg(
@@ -28,10 +28,10 @@ fn main() {
     match matches.subcommand() {
         Some(("task-01", sub_matches)) => {
             task_01::run_task(
-                sub_matches.get_one::<PathBuf>("file").unwrap(), 
+                sub_matches.get_one::<PathBuf>("file"), 
                 *sub_matches.get_one::<usize>("topn").unwrap()
             )
         },
-        _ => println!("Should not be reached!")
+        _ => eprintln!("ERROR: Branch should not be reached!")
     }
 }
