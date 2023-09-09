@@ -1,6 +1,7 @@
 use std::fs::File;
-use std::io::{self, BufRead};
+use std::io::{self, BufRead, stdout};
 use std::path::PathBuf;
+use is_terminal::IsTerminal;
 
 use advent_of_code_2022_rust::top_n_counter::TopNGroupCounter;
 
@@ -38,14 +39,32 @@ fn read_input(path: &Option<&PathBuf>) -> Box<dyn BufRead> {
     }
 }
 
+fn update_total(total: &usize, value: &usize, index: &usize) -> usize {
+    let updated_total = total + value;
+    if stdout().is_terminal() {
+        let offset_index: usize = index + 1;
+        println!("Top {offset_index} elf: {value} [calories]");
+    }
+    updated_total
+}
+
+fn flush_result(total: &usize) {
+    if stdout().is_terminal() {
+        println!("Total: {total} [calories]");
+    } else {
+        println!("{total}")
+    }
+}
+
 pub fn run_task(path: Option<&PathBuf>, top_n: usize) {
     let lines = read_input(&path).lines();
 
     let max_sums = process_file(lines, top_n);
+
     let mut total_sum: usize = 0;
-    for _sum in max_sums {
-        total_sum += _sum;
-        println!("{_sum}");
+    for (index, sum) in max_sums.iter().enumerate() {
+        total_sum = update_total(&total_sum, &sum, &index);
     }
-    println!("Total sum is: {total_sum}");
+    
+    flush_result(&total_sum);
 }
