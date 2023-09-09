@@ -1,9 +1,9 @@
-use std::fs::File;
 use std::io::{self, BufRead, stdout};
 use std::path::PathBuf;
 use is_terminal::IsTerminal;
 
 use advent_of_code_2022_rust::top_n_counter::TopNGroupCounter;
+use advent_of_code_2022_rust::utils::file_utils::read_input;
 
 
 fn apply_top_n_group_counter(line: String, counter: &mut TopNGroupCounter) {
@@ -14,7 +14,6 @@ fn apply_top_n_group_counter(line: String, counter: &mut TopNGroupCounter) {
     }
 }
 
-
 fn process_file(lines: io::Lines<Box<dyn BufRead>>, top_n: usize) -> Vec<usize> {
     let mut counter = TopNGroupCounter::new(top_n);
     for line in lines {
@@ -24,19 +23,6 @@ fn process_file(lines: io::Lines<Box<dyn BufRead>>, top_n: usize) -> Vec<usize> 
         }
     }
     return counter.top_sums;
-}
-
-fn read_input(path: &Option<&PathBuf>) -> Box<dyn BufRead> {
-    match path {
-        Some(path) => {
-            let file = File::open(path);
-            match file {
-                Ok(file) => Box::new(io::BufReader::new(file)),
-                Err(line) => panic!("File does not exist {line}!")
-            }
-        },
-        None => Box::new(io::BufReader::new(io::stdin().lock())),
-    }
 }
 
 fn update_total(total: &usize, value: &usize, index: &usize) -> usize {
@@ -65,6 +51,6 @@ pub fn run_task(path: Option<&PathBuf>, top_n: usize) {
     for (index, sum) in max_sums.iter().enumerate() {
         total_sum = update_total(&total_sum, &sum, &index);
     }
-    
+
     flush_result(&total_sum);
 }
